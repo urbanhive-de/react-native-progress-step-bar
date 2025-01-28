@@ -12,6 +12,7 @@ interface ProgressBarDotsProps {
   height: number;
   dotDiameter?: number;
   currentStep: number;
+  percentProgress?: number;
   backgroundBarStyle?: StyleProp<ViewStyle>;
   filledBarStyle?: StyleProp<ViewStyle>;
   backgroundDotStyle?: StyleProp<ViewStyle>;
@@ -131,6 +132,7 @@ const ProgressBarDots = ({
   height,
   width,
   currentStep,
+  percentProgress,
   backgroundBarStyle = styles.defaultBackgroundBar,
   filledBarStyle = styles.defaultFilledBar,
   filledBarContainerStyle,
@@ -155,11 +157,11 @@ const ProgressBarDots = ({
 
   useEffect(() => {
     Animated.timing(animatedValue.current, {
-      toValue: currentStep * stepAnimatedSize,
+      toValue: percentProgress ?? currentStep * stepAnimatedSize,
       useNativeDriver: true,
       duration: stepToStepAnimationDuration,
     }).start();
-  }, [currentStep, stepAnimatedSize, stepToStepAnimationDuration]);
+  }, [percentProgress, currentStep, stepAnimatedSize, stepToStepAnimationDuration]);
 
   const filledBarTranslationX = Animated.subtract(interpolatedDistance, width);
   return (
